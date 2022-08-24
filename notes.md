@@ -175,3 +175,73 @@ pipeline {
     }
 }
 ```
+
+## Where does 	Declarative: Checkout SCM come from
+
+By defining git repository to be checked out, basically in the config UI, we declared the checkout there to happen, it automatically happens then in the pipeline
+
+# Test changes in a Jenkinsfile in Jenkins UI
+
+Go to one of the branches, check the history, click inside -> click replay ( allows to adjust the latest run and re-run it again), basically adjust the jenkinsfile
+
+## For a groovy or script to be executed, it needs to be inclosed in script {}
+
+```
+script {
+
+}
+```
+
+Testing a groovy execution
+
+```
+script {
+    def test = 2 + 2 > 3 ? 'True' : 'Not True'
+    echo test
+}
+```
+
+Check the logs on the pipeline run on the branch
+
+
+## Restart from Stage
+
+On the runned history, click the arrow down and restart a stage configured (build, test, deploy)
+
+## Trigger build on commit
+
+### Methods
+
+**Push notification**
+
+More efficient, only on relevant change
+Version control notifies Jenkins on new commit
+
+### Push notification config
+
+Source code management dependent
+
+1. Install Jenkins plugin based on Version Control System
+2. Configure Repository Server Hostname
+3. Add Access Token or Credential
+
+ Manage Jenkins -> Configure system -> Github/Gitlab (or another version control) add server -> advanced -> override hook url -> copy the url to the webhook of the git version control repository
+
+ Same on git repo -> settings -> webhooks
+
+ Copy the url from the above jenkins server webhook and paste
+
+ Check the push events checbkox to trigger a push event to this url
+
+ Develoepr -> Commit on Git -> push to Jenkins webhook url -> Change made, lets build
+
+**Polling**
+
+Jenkins polls in regular intervalls if there is any change
+
+Inside of the jenkins inside of the pipeline
+
+Scan Multibranch Pipeline Triggers -> Periodically if not otherwise run -> choose interval (e.g. 1 min interval)
+
+Jenkins checks every 1 min if there was ane change on git <-> Git
+

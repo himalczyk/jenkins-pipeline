@@ -9,6 +9,7 @@ pipeline {
                 // sh 'npm install'
                 // sh 'npm build'
                 echo 'building the application'
+                echo 'testing for polling'
             }
         }
         
