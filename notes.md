@@ -289,6 +289,8 @@ Search for plugin -> check box -> install
 
 ### Building an example simple Jenkinsfile with Gradle and NodeJS
 
+The same way we can use npm and maven
+
 ```
 pipeline {
     agent any
@@ -310,5 +312,21 @@ pipeline {
             }
         }
     }
+}
+```
+
+The same can be used with a tools **argument** in jenkinsfile instead of repr: 
+
+REPR IS (the instanstation/calling of the tools withGradel(), nodejs('Node-10.17'))
+
+```
+withGradle() {
+    sh './gradlew -v'
+}
+```
+
+```
+tools {
+    gradle 'Gradle-6.2'
 }
 ```
