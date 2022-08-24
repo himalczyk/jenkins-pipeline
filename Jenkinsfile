@@ -1,32 +1,21 @@
 pipeline {
     agent any
-
     stages {
-        
-        stage("build") {
+        stage("run frontend") {
             steps {
-                //commands executed on Jenkinsserver, execution of commands with Jenkinsagent
-                // sh 'npm install'
-                // sh 'npm build'
-                echo 'building the application'
-                echo 'testing for polling'
+                echo "executing yarn.."
+                nodejs('Node-10.17') {
+                    sh 'yarn install'
+                }
             }
         }
-        
-        stage("test") {
+        stage("run frontend") {
             steps {
-                echo 'testing the application'
-            }
-        }
-
-        stage("deploy") {
-            steps {
-                echo 'deploying the application'
+                echo "executing gradle.."
+                withGradle() {
+                    sh './gradlew -v'
+                }
             }
         }
     }
-}
-
-node {
-    // groovy script
 }

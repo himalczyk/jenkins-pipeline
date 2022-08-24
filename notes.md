@@ -241,7 +241,74 @@ Jenkins polls in regular intervalls if there is any change
 
 Inside of the jenkins inside of the pipeline
 
-Scan Multibranch Pipeline Triggers -> Periodically if not otherwise run -> choose interval (e.g. 1 min interval)
+Scan Multibranch Pipeline Triggers -> Periodically if not otherwise run -> choose interval (e.g. usually 15min-1h)
 
 Jenkins checks every 1 min if there was ane change on git <-> Git
 
+Sometimes they are unreliable, blocked by jenkins firewall.
+
+### Good strategy for checking polling / push notification
+
+Good strategy to configure both as backup plan
+
+Push notification on changes + polling each 1-2hours
+
+# Configure build tools in Jenkins. Configure Gradle
+
+## 4 main build tools
+
+Backend: Maven, Gradle
+
+Frontend: npm || yarn
+
+At least one of this build tools is needed in one of the build configurations
+
+## How to use these tools in Jenkins?
+
+Some buold tools are already available
+
+Some tools need to be installed as plugins
+
+1. Check if already available? If yes, configure it
+
+2. Install it from Plugins and do Step 1)
+
+3. Use it in your build config (Jenkinsfile)
+
+### Configuration
+
+Manage Jenkins -> Global Tool Configuration
+
+Each chosen tools can be installed in Jenkins inself in the configuration while adding and choosing the installation source
+
+### Install some tool (npm or yarn)
+
+Manage Jenkins -> Manage plugins
+
+Search for plugin -> check box -> install
+
+### Building an example simple Jenkinsfile with Gradle and NodeJS
+
+```
+pipeline {
+    agent any
+    stages {
+        stage("run frontend") {
+            steps {
+                echo "executing yarn.."
+                nodejs('Node-10.17') {
+                    sh 'yarn install'
+                }
+            }
+        }
+        stage("run frontend") {
+            steps {
+                echo "executing gradle.."
+                withGradle() {
+                    sh './gradlew -v'
+                }
+            }
+        }
+    }
+}
+```
